@@ -6,19 +6,6 @@
         <b-card-body>
           <h2 class="mb-4">{{ $route.matched[0].props.default.title }}</h2>
           <router-view></router-view>
-          <b-row class="mt-3" v-show="$route.path !== '/revisao'">
-            <b-col>
-              <b-row>
-                <b-col cols="8" md="5" xl="4" sm="6">
-                  <b-progress :value="$route.path == '/' ? 50 : 100" class="mb-3"></b-progress>
-                </b-col>
-                <b-col>
-                  {{ $route.path == '/' ? '1' : '2' }} de 2
-                </b-col>
-              </b-row>
-              <b-button @click="next" class="rounded-4">PRÓXIMO</b-button>
-            </b-col>
-          </b-row>
         </b-card-body>
       </b-card>
     </div>
@@ -48,7 +35,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #282828;
   font-family: 'Open Sans', sans-serif;
   #content {
     margin: auto;
@@ -65,33 +52,83 @@ body {
   .rounded-4 {
     border-radius: 20px;
   }
-  input {
-    margin-left: 11px;
+  input, select {
+    margin-left: 10px;
+    margin-right: 10px;
     border-color: rgba(72, 54, 152, 0.66);
   }
-  input:focus {
+  input:focus, select:focus {
     outline: none;
     border-color: #483698;
+  }
+  .input-group-text {
+    background: #483698;
+    color: #FFF;
+    border-radius: 5px 0 0 5px;
+    margin-right: -1px;
+    border: solid 1px #483698;
   }
   h2 {
     color: #483698;
     font-size: 36px;
   }
+  small {
+    font-weight: 600;
+  }
   .progress {
-    max-width: 200px !important;
+    max-width: 220px !important;
+    margin-right: 10px;
     .progress-bar {
       background: #483698;
     }
   }
   .btn {
     width: 300px !important;
-    max-width: 70vw;
+    max-width: 80vw;
     padding: 3px;
     border-radius: 12px !important;
-    background-color: #483698;
+    border: none;
+    font-size: 14px;
   }
   h2, button {
     font-family: 'Comfortaa', cursive !important;
+  }
+  img {
+    margin-left: -25px;
+  }
+}
+@media screen and (max-width: 767px) {
+  img {
+    display: none;
+  }
+  .b-icon {
+    margin-left: 20px;
+  }
+  h2 {
+    font-size: 22px !important;
+  }
+  h5 {
+    font-size: 16px !important;
+  }
+  small {
+    font-size: 12px !important;
+  }
+  *::placeholder {
+    font-size: 12px !important;
+  }
+  #card-content {
+    min-height: 90vh;
+  }
+}
+@media screen and (max-width: 426px) {
+  #app {
+    padding: 0;
+  }
+  #content {
+    min-width: 100vw;
+  }
+  #card-content {
+    border-radius: 20px 20px 0 0 !important;
   }
 }
 </style>
