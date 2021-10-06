@@ -5,27 +5,27 @@
       <b-col cols="12" md="6">
         <b-input-group class="row align-content-lg-start mb-3" size="sm">
           <small>Nome completo</small>
-          <b-form-input class="rounded-2 mt-1" placeholder="Digite o nome completo"></b-form-input>
+          <b-form-input min="3" type="text" required autofocus class="rounded-2 mt-1" placeholder="Digite o nome completo"></b-form-input>
         </b-input-group>
         <b-input-group style="max-width: 220px" class="row align-content-lg-start mb-3" size="sm">
           <small>CPF</small>
-          <b-form-input class="rounded-2 mt-1" placeholder="Digite um CPF"></b-form-input>
+          <b-form-input required type="number" no-wheel="true" class="rounded-2 mt-1" placeholder="Digite um CPF"></b-form-input>
         </b-input-group>
         <b-input-group style="max-width: 220px" class="row align-content-lg-start mb-3" size="sm">
           <small>Numero de celular</small>
-          <b-form-input class="rounded-2 mt-1" placeholder="(00) 0 0000-0000"></b-form-input>
+          <b-form-input required type="number" no-wheel="true" class="rounded-2 mt-1" placeholder="(00) 0 0000-0000"></b-form-input>
         </b-input-group>
         <b-row class="mb-3">
           <b-col>
             <b-input-group class="row align-content-lg-start" size="sm">
               <small>Estado</small>
-              <b-form-select class="rounded-2 mt-1 p-1 bg-white" :options="['Maranhao']"></b-form-select>
+              <b-form-select required class="rounded-2 mt-1 p-1 bg-white" v-model="form.state" :options="states" value-field="state" text-field="state"></b-form-select>
             </b-input-group>
           </b-col>
           <b-col>
             <b-input-group class="row align-content-lg-start" size="sm">
               <small>Cidade</small>
-              <b-form-select class="rounded-2 mt-1 p-1 bg-white" :options="['Imperatriz']"></b-form-select>
+              <b-form-select required class="rounded-2 mt-1 p-1 bg-white" v-model="form.city" :options="cities"></b-form-select>
             </b-input-group>
           </b-col>
         </b-row>
@@ -53,6 +53,25 @@ export default {
   name: 'Professional',
   components: {
     ButtonDefault
+  },
+  data() {
+    return {
+      form: {
+        state: 'Paraná',
+        city: null
+      },
+      states: [
+        { state: 'Paraná', cities: ['Londrina', 'Maringá'] },
+        { state: 'Rio Grande do Sul', cities: ['Pelotas', 'Porto Alegre'] },
+        { state: 'Santa Catarina', cities: ['Florianópolis', 'Joinville'] }
+      ]
+    }
+  },
+  computed: {
+    cities() {
+      let find_state = this.states.find(s => s.state == this.form.state)
+      return find_state.cities
+    }
   }
 }
 </script>

@@ -12,21 +12,17 @@ export default {
   props: {
     colorButton: {
       type: String,
-      required: false,
       default: '#483698'
     },
     colorTitle: {
       type: String,
-      required: false,
       default: '#FFF'
     },
     route: {
-      type: String,
-      required: true
+      type: String
     },
     title: {
       type: String,
-      required: true,
       default: 'PRÓXIMO'
     },
     form: {
