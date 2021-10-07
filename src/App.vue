@@ -1,10 +1,10 @@
 <template>
   <b-container id="app">
     <div id="content" align="left" style="max-width: 50rem;">
-      <b-icon-chevron-left @click="back" class="mt-4 mb-3" :class="$route.path == '/' ? 'opacity-0' : ''"/>
+      <b-icon-chevron-left @click="back" class="mt-4 mb-3" :class="!iconBack ? 'opacity-0' : ''"/>
       <b-card id="card-content" class="rounded-4 shadow p-md-2">
         <b-card-body>
-          <h2 class="mb-4">{{ $route.matched[0].props.default.title }}</h2>
+          <h2 v-if="$route.path !== '/finalizado'" class="mb-4">{{ $route.matched[0].props.default.title }}</h2>
           <router-view></router-view>
         </b-card-body>
       </b-card>
@@ -14,9 +14,20 @@
 
 <script>
 export default {
+  computed: {
+    iconBack() {
+      if (this.$route.path == '/' || this.$route.path == '/finalizado') {
+        return false
+      } else {
+        return true
+      }
+    }
+  },
   methods: {
     back() {
-      this.$route.path == '/revisao' ? this.$router.push('/atendimento') : this.$router.push('/')
+      if (this.$route.path !== '/' && this.$route.path !== '/finalizado') {
+        this.$route.path == '/revisao' ? this.$router.push('/atendimento') : this.$router.push('/')
+      }
     },
     next() {
       this.$route.path == '/' ? this.$router.push('/atendimento') : this.$router.push('/revisao')
@@ -98,7 +109,7 @@ body {
   }
 }
 @media screen and (max-width: 767px) {
-  img {
+  .svg {
     display: none;
   }
   .b-icon {

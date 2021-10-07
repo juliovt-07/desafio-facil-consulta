@@ -16,24 +16,26 @@
         <b-input-group style="max-width: 285px" class="row align-content-lg-start mb-3" size="sm">
           <small>Formas de pagamento da consulta</small>
           <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-              <b-checkbox v-model="payments.pix"><b>Pix</b></b-checkbox>
+              <b-checkbox v-model="form.payment_options.pix"><b>Pix</b></b-checkbox>
           </b-card>
           <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-              <b-checkbox v-model="payments.money"><b>Em dinheiro</b></b-checkbox>
+              <b-checkbox v-model="form.payment_options.money"><b>Em dinheiro</b></b-checkbox>
           </b-card>
           <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-              <b-checkbox v-model="payments.credit_card"><b>Cartão de crédito</b></b-checkbox>
-              <b-form-radio-group v-show="payments.credit_card">
+              <b-checkbox v-model="form.payment_options.credit_card"><b>Cartão de crédito</b></b-checkbox>
+              <div v-show="form.payment_options.credit_card">
                 <label class="title-radio mt-3">Parcelamento em</label>
-                <b-form-radio class="mt-3">1x, sem juros</b-form-radio>
-                <b-form-radio class="mt-3">2x, sem juros</b-form-radio>
-                <b-form-radio class="mt-3">3x, sem juros</b-form-radio>
-              </b-form-radio-group>
+                <b-form-radio-group
+                    v-model="form.credit_card_option"
+                    :options="credit_card_options"
+                >
+                </b-form-radio-group>
+              </div>
           </b-card>
         </b-input-group>
       </b-col>
       <b-col md="3">
-        <img src="../assets/cartoon-2.png" width="360">
+        <img src="../assets/cartoon-2.png" class="svg" width="360">
       </b-col>
     </b-row>
     <b-row align-v="center">
@@ -44,7 +46,7 @@
         {{ $route.path == '/' ? '1' : '2' }} de 2
       </b-col>
     </b-row>
-    <ButtonDefault route="Revision"/>
+    <ButtonDefault route="Revision" :form="form"/>
   </div>
 </template>
 
@@ -59,43 +61,53 @@ export default {
   data() {
     return {
       form: {
-        payments: []
+        payments: [],
+        payment_options: {
+          pix: false,
+          money: false,
+          credit_card: false
+        },
+        credit_card_option: 1
       },
+      credit_card_options: [
+        { text: '1x, sem juros', value: 1 },
+        { text: '2x, sem juros', value: 2 },
+        { text: '3x, sem juros', value: 3 }
+      ],
       especialidades: ['Cardiologia', 'Dermatologia', 'Neurologia', 'Oftalmologia', 'Psiquiatria', 'Urologia'],
-      payments: {
-        pix: false,
-        money: false,
-        credit_card: false
-      }
     }
   },
+  beforeMount() {
+    this.form = Object.assign({}, this.form, this.$route.params.form)
+  },
   watch: {
-    'payments.pix': function (value) {
-      let index = this.form.payments.findIndex(p => p == 'Pix')
-      if (value && (this.form.payments.length < 2)) {
-        this.form.payments.push('Pix')
+    'form.payment_options.pix': function (value) {
+      let index = this.form.payments.findIndex(p => p.type == 'Pix')
+      if (value && index == -1) {
+        this.form.payments.push({ type: 'Pix' })
       } else {
-        // this.form.payments.splice(index, 1)
+        this.form.payments.splice(index, 1)
       }
     },
-    'payments.money': function (value) {
-      let index = this.form.payments.findIndex(p => p == 'Dinheiro')
-      if (value && (this.form.payments.length < 2)) {
-        this.form.payments.push('Dinheiro')
+    'form.payment_options.money': function (value) {
+      let index = this.form.payments.findIndex(p => p.type == 'Dinheiro')
+      if (value && index == -1) {
+        this.form.payments.push({ type: 'Dinheiro' })
       } else {
-        // this.form.payments.splice(index, 1)
+        this.form.payments.splice(index, 1)
       }
     },
-    'payments.credit_card': function (value) {
-      let index = this.form.payments.findIndex(p => p == 'Cartão de crédito')
-      if (value && (this.form.payments.length < 2)) {
-        this.form.payments.push('Cartão de crédito')
+    'form.payment_options.credit_card': function (value) {
+      let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
+      if (value && index == -1) {
+        this.form.payments.push({ type: 'Cartão de crédito', option: this.form.credit_card_option })
       } else {
-        // this.form.payments.splice(index, 1)
+        this.form.payments.splice(index, 1)
       }
     },
-    'form.payments': function (items) {
-      console.log(items)
+    'form.credit_card_option': function (value) {
+      let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
+      this.form.payments[index].option = value
     }
   }
 }
@@ -108,10 +120,14 @@ export default {
     margin-left: -10px !important;
   }
 }
-.custom-checkbox .custom-control-label {
-  margin-left: 25px !important;
+.title-radio {
+  margin-left: 45px !important;
   cursor: pointer;
+  font-size: 14px;
   user-select: none;
+}
+.custom-control.custom-control-inline.custom-radio {
+  margin-top: 20px !important;
 }
 .bv-no-focus-ring {
   padding-left: 20px;

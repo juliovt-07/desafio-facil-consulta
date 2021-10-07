@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-button :style="'background:'+colorButton+';color:'+colorTitle" @click="next(route)" class="rounded-4">
+    <b-button :disabled="disabled" :style="'background:'+colorButton+';color:'+colorTitle" @click="next(route)" class="rounded-4">
       {{ title }}
     </b-button>
   </div>
@@ -28,11 +28,14 @@ export default {
     form: {
       type: Object,
       required: false
+    },
+    disabled: {
+      type: Boolean
     }
   },
   methods: {
     next(route) {
-      this.$router.push({ name: route })
+      this.$router.push({ name: route, params: { form: this.form }})
     }
   }
 }

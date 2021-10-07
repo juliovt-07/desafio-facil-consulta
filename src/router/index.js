@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Professional from '../views/Professional.vue'
 import Attendance from '../views/Attendance.vue'
 import Revision from '../views/Revision.vue'
+import Finish from '../views/Finish.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,12 @@ const routes = [
     name: 'Revision',
     component: Revision,
     props: { title: 'Revisão do cadastro' }
+  },
+  {
+    path: '/finalizado',
+    name: 'Finish',
+    component: Finish,
+    props: { title: 'Cadastrado com sucesso' }
   }
 ]
 
