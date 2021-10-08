@@ -24,7 +24,7 @@
         </b-input-group>
         <b-input-group class="row align-content-lg-start mb-1" size="sm">
           <small>Preço da consulta</small>
-          <p>R$ {{ form.value }}</p>
+          <p>R$ {{ parseFloat(form.value).toFixed(2).replace('.', ',') }}</p>
         </b-input-group>
         <b-input-group class="row align-content-lg-start mb-2" size="sm">
           <small>Formas de pagamento da consulta</small>

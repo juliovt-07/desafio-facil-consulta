@@ -1,6 +1,12 @@
 <template>
   <div>
-    <b-button :disabled="disabled" :style="'background:'+colorButton+';color:'+colorTitle" @click="next(route)" class="rounded-4">
+    <b-button
+        type="submit"
+        :disabled="disabled"
+        :style="'background:'+colorButton+';color:'+colorTitle"
+        class="rounded-4"
+        @click="next(route)"
+    >
       {{ title }}
     </b-button>
   </div>
