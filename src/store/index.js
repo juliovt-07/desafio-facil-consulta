@@ -1,9 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import VuexPersist from 'vuex-persist'
 Vue.use(Vuex);
+
+const vuexPersist = new VuexPersist({
+    key: 'registers',
+    storage: window.localStorage
+})
 
 const store = new Vuex.Store({
     state: {
+        registers: [],
         form: {
             name: null,
             cpf: null,
@@ -23,7 +30,8 @@ const store = new Vuex.Store({
             { state: 'Rio Grande do Sul', cities: ['Pelotas', 'Porto Alegre'] },
             { state: 'Santa Catarina', cities: ['Florianópolis', 'Joinville'] }
         ],
-        editing: false
+        editing: false,
+        id: 0
     },
     mutations: {
         updateForm (state, payload) {
@@ -38,6 +46,12 @@ const store = new Vuex.Store({
         removePayment (state, payload) {
             const index = state.form.payments.findIndex(p => p.type == payload.type)
             state.form.payments.splice(index, 1)
+        },
+        register (state, payload) {
+            const register = payload
+            register.id = state.id
+            state.id++
+            state.registers.push(register)
         },
         reset (state) {
             state.form = {
@@ -66,7 +80,8 @@ const store = new Vuex.Store({
                 commit('addPayment', payload)
             }
         }
-    }
+    },
+    plugins: [vuexPersist.plugin]
 })
 
 Vue.prototype.$store = store;

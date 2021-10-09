@@ -32,7 +32,7 @@
             {{ payment.type }} {{ payment.option ? '- '+payment.option+ 'x sem juros' : '' }}
           </p>
         </b-input-group>
-        <ButtonDefault route="Finish" class="mb-2" :form="form" title="CADASTRAR PROFISSIONAL" color-button="#f8de40" color-title="#282828"/>
+        <ButtonDefault :register="true" route="Finish" class="mb-2" :form="form" title="CADASTRAR PROFISSIONAL" color-button="#f8de40" color-title="#282828"/>
         <ButtonDefault route="Professional" :form="form" title="Editar cadastro" color-button="transparent" color-title="#483698"/>
       </b-col>
       <b-col md="3">

@@ -35,6 +35,9 @@ export default {
       type: Object,
       required: false
     },
+    register: {
+      type: Boolean
+    },
     reset: {
       type: Boolean
     },
@@ -45,6 +48,9 @@ export default {
   methods: {
     next(route) {
       this.$store.commit('updateForm', this.form)
+      if (this.register) {
+        this.$store.commit('register', this.form)
+      }
       if (this.reset) {
         this.$store.commit('reset')
       }
