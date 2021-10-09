@@ -49,7 +49,6 @@ export default {
         this.$store.commit('reset')
       }
       this.$router.push({ name: route })
-      console.log(this.$store.state.form)
     }
   }
 }

@@ -133,7 +133,6 @@ export default {
   },
   mounted() {
     this.form = this.$store.state.form
-    console.log(this.$store.state.form)
   },
   computed: {
     cities() {

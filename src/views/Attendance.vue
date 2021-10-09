@@ -124,41 +124,6 @@ export default {
     this.$store.state.editing = true
   },
   watch: {
-    // 'form.payment_options.pix': function (value) {
-    //   let index = this.form.payments.findIndex(p => p.type == 'Pix')
-    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Pix').length)
-    //   console.log(repeat)
-    //   if (value) {
-    //     this.form.payments.push({ type: 'Pix' })
-    //   } else {
-    //     this.form.payments.splice(index, 1)
-    //   }
-    // },
-    // 'form.payment_options.money': function (value) {
-    //   let index = this.form.payments.findIndex(p => p.type == 'Dinheiro')
-    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Dinheiro').length)
-    //   console.log(repeat)
-    //   if (value) {
-    //     this.form.payments.push({ type: 'Dinheiro' })
-    //   } else {
-    //     this.form.payments.splice(index, 1)
-    //   }
-    // },
-    // 'form.payment_options.credit_card': function (value) {
-    //   let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
-    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Cartão de crédito').length)
-    //   console.log(repeat)
-    //   if (value) {
-    //     this.form.payments.push({ type: 'Cartão de crédito', option: this.form.credit_card_option })
-    //   } else {
-    //     this.form.payments.splice(index, 1)
-    //   }
-    // },
-    // 'form.payment_options.pix': function (value) {
-    //   if (this.$store.state.editing) {
-    //     this.$store.dispatch('updatePayments', { type: 'Pix' })
-    //   }
-    // },
     'form.credit_card_option': function (value) {
       let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
       this.form.payments[index].option = value
