@@ -7,7 +7,7 @@
 ![Version](https://img.shields.io/badge/VueRouter-3.2.0-green)
 ![Version](https://img.shields.io/badge/Vuex-3.6.2-brightgreen)
 
-> Front-end de um cadastro profissional da saude
+> Front-end de um cadastro para profissional da saude
 
 ## Install
 ```sh
