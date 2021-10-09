@@ -2,14 +2,14 @@
   <div class="finish">
     <b-row class="py-3" align-v="center">
       <b-col>
-        <h1>Dr.ª {{ $route.params.form.name.split(" ", 1)[0] }} cadastrado com sucesso</h1>
+        <h1>Dr.ª {{ $store.state.form.name.split(" ", 1)[0] }} cadastrado com sucesso</h1>
         <b-row>
           <img src="../assets/logo.png" class="mx-auto mt-4">
         </b-row>
       </b-col>
     </b-row>
     <div class="text-center mt-4">
-      <ButtonDefault title="Novo cadastro" route="Professional"/>
+      <ButtonDefault :reset="true" title="Novo cadastro" route="Professional"/>
     </div>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default {
   name: 'Finish',
   components: {
     ButtonDefault
+  },
+  computed: {
+    form() {
+      return this.$store.state.form
+    }
   }
 }
 </script>

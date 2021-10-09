@@ -132,9 +132,8 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.params.form) {
-      this.form = Object.assign({}, this.form, this.$route.params.form)
-    }
+    this.form = this.$store.state.form
+    console.log(this.$store.state.form)
   },
   computed: {
     cities() {

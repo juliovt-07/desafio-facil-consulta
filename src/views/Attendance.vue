@@ -55,13 +55,13 @@
                 <b-input-group style="max-width: 285px" class="row align-content-lg-start mb-3" size="sm">
                   <small>Formas de pagamento da consulta</small>
                   <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-                    <b-checkbox v-model="form.payment_options.pix"><b>Pix</b></b-checkbox>
+                    <b-checkbox @change="updatePayments({ type: 'Pix' })" v-model="form.payment_options.pix"><b>Pix</b></b-checkbox>
                   </b-card>
                   <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-                    <b-checkbox v-model="form.payment_options.money"><b>Em dinheiro</b></b-checkbox>
+                    <b-checkbox @change="updatePayments({ type: 'Dinheiro' })" v-model="form.payment_options.money"><b>Em dinheiro</b></b-checkbox>
                   </b-card>
                   <b-card class="bg-light border-0 rounded-3 shadow-sm mt-2">
-                    <b-checkbox v-model="form.payment_options.credit_card"><b>Cartão de crédito</b></b-checkbox>
+                    <b-checkbox @change="updatePayments({ type: 'Cartão de crédito', option: form.credit_card_option })" v-model="form.payment_options.credit_card"><b>Cartão de crédito</b></b-checkbox>
                     <div v-show="form.payment_options.credit_card">
                       <label class="title-radio mt-3">Parcelamento em</label>
                       <b-form-radio-group
@@ -82,7 +82,7 @@
                 {{ $route.path == '/' ? '1' : '2' }} de 2
               </b-col>
             </b-row>
-            <ButtonDefault :disabled="form.payments.length == 0 || invalid" route="Revision" :form="form"/>
+            <ButtonDefault :disabled="$store.state.form.payments.length == 0 || invalid" route="Revision" :form="form"/>
           </b-form>
         </validation-observer>
       </b-col>
@@ -104,7 +104,6 @@ export default {
   data() {
     return {
       form: {
-        payments: [],
         payment_options: {
           pix: false,
           money: false,
@@ -121,37 +120,45 @@ export default {
     }
   },
   mounted() {
-    if (this.$route.params.form.payments) {
-      console.log(this.$route.params.form.payments)
-      this.form.payments = this.$route.params.form.payments
-    }
-    this.form = Object.assign({}, this.form, this.$route.params.form)
+    this.form = this.$store.state.form
+    this.$store.state.editing = true
   },
   watch: {
-    'form.payment_options.pix': function (value) {
-      let index = this.form.payments.findIndex(p => p.type == 'Pix')
-      if (value && index == -1) {
-        this.form.payments.push({ type: 'Pix' })
-      } else {
-        this.form.payments.splice(index, 1)
-      }
-    },
-    'form.payment_options.money': function (value) {
-      let index = this.form.payments.findIndex(p => p.type == 'Dinheiro')
-      if (value && index == -1) {
-        this.form.payments.push({ type: 'Dinheiro' })
-      } else {
-        this.form.payments.splice(index, 1)
-      }
-    },
-    'form.payment_options.credit_card': function (value) {
-      let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
-      if (value && index == -1) {
-        this.form.payments.push({ type: 'Cartão de crédito', option: this.form.credit_card_option })
-      } else {
-        this.form.payments.splice(index, 1)
-      }
-    },
+    // 'form.payment_options.pix': function (value) {
+    //   let index = this.form.payments.findIndex(p => p.type == 'Pix')
+    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Pix').length)
+    //   console.log(repeat)
+    //   if (value) {
+    //     this.form.payments.push({ type: 'Pix' })
+    //   } else {
+    //     this.form.payments.splice(index, 1)
+    //   }
+    // },
+    // 'form.payment_options.money': function (value) {
+    //   let index = this.form.payments.findIndex(p => p.type == 'Dinheiro')
+    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Dinheiro').length)
+    //   console.log(repeat)
+    //   if (value) {
+    //     this.form.payments.push({ type: 'Dinheiro' })
+    //   } else {
+    //     this.form.payments.splice(index, 1)
+    //   }
+    // },
+    // 'form.payment_options.credit_card': function (value) {
+    //   let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
+    //   let repeat = !Boolean(this.form.payments.filter(p => p.type == 'Cartão de crédito').length)
+    //   console.log(repeat)
+    //   if (value) {
+    //     this.form.payments.push({ type: 'Cartão de crédito', option: this.form.credit_card_option })
+    //   } else {
+    //     this.form.payments.splice(index, 1)
+    //   }
+    // },
+    // 'form.payment_options.pix': function (value) {
+    //   if (this.$store.state.editing) {
+    //     this.$store.dispatch('updatePayments', { type: 'Pix' })
+    //   }
+    // },
     'form.credit_card_option': function (value) {
       let index = this.form.payments.findIndex(p => p.type == 'Cartão de crédito')
       this.form.payments[index].option = value
@@ -160,6 +167,9 @@ export default {
   methods: {
     getValidationState({ dirty, validated, valid = null }) {
       return dirty || validated ? valid : null;
+    },
+    updatePayments(payload) {
+      this.$store.dispatch('updatePayments', payload)
     }
   }
 }

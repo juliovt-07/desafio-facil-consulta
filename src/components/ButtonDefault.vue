@@ -35,13 +35,21 @@ export default {
       type: Object,
       required: false
     },
+    reset: {
+      type: Boolean
+    },
     disabled: {
       type: Boolean
     }
   },
   methods: {
     next(route) {
-      this.$router.push({ name: route, params: { form: this.form }})
+      this.$store.commit('updateForm', this.form)
+      if (this.reset) {
+        this.$store.commit('reset')
+      }
+      this.$router.push({ name: route })
+      console.log(this.$store.state.form)
     }
   }
 }

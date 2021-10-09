@@ -56,7 +56,7 @@ export default {
     }
   },
   mounted() {
-    this.form = this.$route.params.form
+    this.form = this.$store.state.form
   }
 }
 </script>
